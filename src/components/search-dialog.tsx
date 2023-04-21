@@ -60,7 +60,7 @@ export function SearchDialog() {
   const [search, setSearch] = React.useState<string>('')
   const [question, setQuestion] = React.useState<string>('')
   const [answer, setAnswer] = React.useState<string | undefined>('')
-  const eventSourceRef = React.useRef<SSE>()
+  const eventSourceRef = React.useRef<any>()
   const [isLoading, setIsLoading] = React.useState(false)
   const [hasError, setHasError] = React.useState(false)
   const [promptIndex, setPromptIndex] = React.useState(0)
@@ -132,7 +132,7 @@ export function SearchDialog() {
           }
 
           const completionResponse: CreateCompletionResponse = JSON.parse(e.data)
-          const text = completionResponse.choices[0].text
+          const text = completionResponse?.choices?.[0]?.text
 
           setAnswer((answer) => {
             const currentAnswer = answer ?? ''

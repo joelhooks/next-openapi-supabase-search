@@ -1,6 +1,9 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 import { createClient } from '@supabase/supabase-js'
 import {sanityWriteClient} from '~/utils/sanity-server'
-import dotenv from 'dotenv'
+
 //@ts-ignore
 import {default as sanityToMarkdown} from '@sanity/block-content-to-markdown'
 import { createHash } from 'crypto'
@@ -17,7 +20,7 @@ import { u } from 'unist-builder'
 import { Configuration, OpenAIApi } from 'openai'
 import { inspect } from 'util'
 
-dotenv.config()
+console.log(process.env)
 
 const serializers = {
   types: {
@@ -171,7 +174,7 @@ async function main() {
     }
   )
 
-  const embeddingSources : EmbeddingSource[] = await sanityWriteClient
+  const embeddingSources : EmbeddingSource[] = await sanityWriteClient()
   .fetch<{body: any[], _id: string}[]>(`*[_type == "article"]`)
   .then(articles => {
       return articles.map<EmbeddingSource>(article => new MarkdownEmbeddingSource('sanity:articles', article))
